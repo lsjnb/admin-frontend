@@ -59,11 +59,8 @@ export default function SettingsPage() {
 
     const isAdmin = profile?.role === 0
 
-    console.log(isAdmin)
-
     if (!isAdmin) {
-        console.log("redirect")
-        navigate("/dashboard/settings/waf")
+        navigate("/dashboard/settings/online-user")
     }
 
     const form = useForm<z.infer<typeof settingFormSchema>>({
