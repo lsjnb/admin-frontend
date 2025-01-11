@@ -9,6 +9,7 @@ import { useMainStore } from "./useMainStore"
 const AuthContext = createContext<AuthContextProps>({
     profile: undefined,
     login: () => {},
+    loginOauth2: () => {},
     logout: () => {},
 })
 
@@ -24,7 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setProfile(user)
             } catch (error: any) {
                 setProfile(undefined)
-                console.log("Error fetching profile", error)
+                console.error("Error fetching profile", error)
             }
         })()
     }, [])
@@ -43,6 +44,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
+    const loginOauth2 = async () => {
+        try {
+            const user = await getProfile()
+            user.role = user.role || 0
+            setProfile(user)
+            navigate("/dashboard")
+        } catch (error: any) {
+            toast(error.message)
+        } finally {
+            window.history.replaceState({}, document.title, window.location.pathname)
+        }
+    }
+
     const logout = () => {
         document.cookie.split(";").forEach(function (c) {
             document.cookie = c
@@ -57,6 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         () => ({
             profile,
             login,
+            loginOauth2,
             logout,
         }),
         [profile],

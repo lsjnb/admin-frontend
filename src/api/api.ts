@@ -6,7 +6,7 @@ interface CommonResponse<T> {
 
 function buildUrl(path: string, data?: any): string {
     if (!data) return path
-    const url = new URL(path)
+    const url = new URL(window.location.origin + path)
     for (const key in data) {
         url.searchParams.append(key, data[key])
     }

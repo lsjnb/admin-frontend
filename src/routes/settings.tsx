@@ -68,10 +68,10 @@ export default function SettingsPage() {
         defaultValues: config
             ? {
                   ...config,
-                  language: config.language,
-                  site_name: config.site_name || "",
+                  language: config?.config?.language,
+                  site_name: config.config?.site_name || "",
                   user_template:
-                      config.user_template ||
+                      config.config?.user_template ||
                       Object.keys(config.frontend_templates?.filter((t) => !t.is_admin) || {})[0] ||
                       "user-dist",
               }
@@ -88,10 +88,10 @@ export default function SettingsPage() {
     })
 
     useEffect(() => {
-        if (config) {
-            form.reset(config)
+        if (config?.config) {
+            form.reset(config?.config)
         }
-    }, [config, form])
+    }, [config?.config, form])
 
     const onSubmit = async (values: z.infer<typeof settingFormSchema>) => {
         try {
@@ -172,7 +172,7 @@ export default function SettingsPage() {
                                                     (t) => t.path === value,
                                                 )
                                                 if (template) {
-                                                    form.setValue("user_template", template.path)
+                                                    form.setValue("user_template", template!.path!)
                                                 }
                                             }}
                                         >
@@ -188,7 +188,7 @@ export default function SettingsPage() {
                                                     ) || []
                                                 ).map((template) => (
                                                     <div key={template.path}>
-                                                        <SelectItem value={template.path}>
+                                                        <SelectItem value={template.path!}>
                                                             <div className="flex flex-col items-start gap-1">
                                                                 <div className="font-medium">
                                                                     {template.name}

@@ -33,6 +33,7 @@
     "Group": "分組",
     "Profile": "個人資訊",
     "Settings": "系統設定",
+    "BackToHome": "返回前台",
     "Logout": "登出",
     "NavigateTo": "導航至",
     "SelectAPageToNavigateTo": "選擇一個頁面跳轉",
@@ -174,5 +175,6 @@
     "ConnectedAt": "連線時間",
     "OnlineUser": "線上使用者",
     "Total": "總數",
-    "ConfirmBlock": "確認封鎖"
+    "ConfirmBlock": "確認封鎖",
+    "RejectPassword": "禁止密碼登入"
 }

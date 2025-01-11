@@ -31,6 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
+import { toast } from "sonner"
 import { KeyedMutator } from "swr"
 import { z } from "zod"
 
@@ -62,7 +63,15 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
     const [open, setOpen] = useState(false)
 
     const onSubmit = async (values: z.infer<typeof serverFormSchema>) => {
-        await updateServer(data.id, values)
+        try {
+            await updateServer(data!.id!, values)
+        } catch (e) {
+            console.error(e)
+            toast(t("Error"), {
+                description: t("Results.UnExpectedError"),
+            })
+            return
+        }
         setOpen(false)
         await mutate()
         form.reset()
@@ -122,7 +131,6 @@ export const ServerCard: React.FC<ServerCardProps> = ({ data, mutate }) => {
                                                     {...field}
                                                     value={conv.arrToStr(field.value || [])}
                                                     onChange={(e) => {
-                                                        console.log(field.value)
                                                         const arr = conv
                                                             .strToArr(e.target.value)
                                                             .map(Number)

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* tslint:disable */
 /*
  * ---------------------------------------------------------------
@@ -80,12 +81,6 @@ export interface GithubComNezhahqNezhaModelCommonResponseArrayModelUser {
     success: boolean
 }
 
-export interface GithubComNezhahqNezhaModelCommonResponseArrayModelWAFApiMock {
-    data: ModelWAFApiMock[]
-    error: string
-    success: boolean
-}
-
 export interface GithubComNezhahqNezhaModelCommonResponseArrayString {
     data: string[]
     error: string
@@ -94,6 +89,12 @@ export interface GithubComNezhahqNezhaModelCommonResponseArrayString {
 
 export interface GithubComNezhahqNezhaModelCommonResponseArrayUint64 {
     data: number[]
+    error: string
+    success: boolean
+}
+
+export interface GithubComNezhahqNezhaModelCommonResponseGithubComNezhahqNezhaModelSettingResponseModelConfig {
+    data: GithubComNezhahqNezhaModelSettingResponseModelConfig
     error: string
     success: boolean
 }
@@ -122,16 +123,38 @@ export interface GithubComNezhahqNezhaModelCommonResponseModelServiceResponse {
     success: boolean
 }
 
-export interface GithubComNezhahqNezhaModelCommonResponseModelSettingResponse {
-    data: ModelSettingResponse
-    error: string
-    success: boolean
-}
-
 export interface GithubComNezhahqNezhaModelCommonResponseUint64 {
     data: number
     error: string
     success: boolean
+}
+
+export interface GithubComNezhahqNezhaModelPaginatedResponseArrayModelOnlineUserModelOnlineUser {
+    data: GithubComNezhahqNezhaModelValueArrayModelOnlineUser
+    error: string
+    success: boolean
+}
+
+export interface GithubComNezhahqNezhaModelPaginatedResponseArrayModelWAFApiMockModelWAFApiMock {
+    data: GithubComNezhahqNezhaModelValueArrayModelWAFApiMock
+    error: string
+    success: boolean
+}
+
+export interface GithubComNezhahqNezhaModelSettingResponseModelConfig {
+    config: ModelConfig
+    frontend_templates: ModelFrontendTemplate[]
+    version: string
+}
+
+export interface GithubComNezhahqNezhaModelValueArrayModelOnlineUser {
+    pagination: ModelPagination
+    value: ModelOnlineUser[]
+}
+
+export interface GithubComNezhahqNezhaModelValueArrayModelWAFApiMock {
+    pagination: ModelPagination
+    value: ModelWAFApiMock[]
 }
 
 export interface ModelAlertRule {
@@ -163,6 +186,45 @@ export interface ModelAlertRuleForm {
     rules: ModelRule[]
     /** @default 0 */
     trigger_mode: number
+}
+
+export interface ModelConfig {
+    admin_template: string
+    agent_secret_key: string
+    avg_ping_count: number
+    /** 覆盖范围（0:提醒未被 IgnoredIPNotification 包含的所有服务器; 1:仅提醒被 IgnoredIPNotification 包含的服务器;） */
+    cover: number
+    custom_code: string
+    custom_code_dashboard: string
+    /** debug模式开关 */
+    debug: boolean
+    dns_servers: string
+    /** IP变更提醒 */
+    enable_ip_change_notification: boolean
+    /** 通知信息IP不打码 */
+    enable_plain_ip_in_notification: boolean
+    /** 特定服务器IP（多个服务器用逗号分隔） */
+    ignored_ip_notification: string
+    /** [ServerID] -> bool(值为true代表当前ServerID在特定服务器列表内） */
+    ignored_ip_notification_server_ids: Record<string, boolean>
+    install_host: string
+    ip_change_notification_group_id: number
+    jwt_secret_key: string
+    /** 系统语言，默认 zh_CN */
+    language: string
+    listen_host: string
+    listen_port: number
+    /** 时区，默认为 Asia/Shanghai */
+    location: string
+    /** oauth2 配置 */
+    oauth2: Record<string, ModelOauth2Config>
+    /** oauth2 供应商列表，无需配置，自动生成 */
+    oauth2_providers: string[]
+    /** 真实IP */
+    real_ip_header: string
+    site_name: string
+    tls: boolean
+    user_template: string
 }
 
 export interface ModelCreateFMResponse {
@@ -397,21 +459,54 @@ export interface ModelNotificationGroupResponseItem {
     notifications: number[]
 }
 
+export interface ModelOauth2Config {
+    client_id: string
+    client_secret: string
+    endpoint: ModelOauth2Endpoint
+    scopes: string[]
+    user_id_path: string
+    user_info_url: string
+}
+
+export interface ModelOauth2Endpoint {
+    auth_url: string
+    token_url: string
+}
+
+export interface ModelOauth2LoginResponse {
+    redirect: string
+}
+
+export interface ModelOnlineUser {
+    connected_at: string
+    ip: string
+    user_id: number
+}
+
+export interface ModelPagination {
+    limit: number
+    offset: number
+    total: number
+}
+
 export interface ModelProfile {
+    agent_secret: string
     created_at: string
     id: number
     login_ip: string
+    oauth2_bind: Record<string, string>
     password: string
+    reject_password: boolean
+    role: number
     updated_at: string
     username: string
-    role: number
-    agent_secret: string
 }
 
 export interface ModelProfileForm {
     new_password: string
     new_username: string
     original_password: string
+    reject_password?: boolean
 }
 
 export interface ModelRule {
@@ -599,53 +694,6 @@ export interface ModelSettingForm {
     user_template?: string
 }
 
-export interface ModelUserTemplateItem {
-    path: string
-    name: string
-    repository: string
-    author: string
-    version: string
-    is_admin: boolean
-    is_official: boolean
-}
-
-export interface ModelSettingResponse {
-    admin_template: string
-    agent_secret_key: string
-    avg_ping_count: number
-    /** 覆盖范围（0:提醒未被 IgnoredIPNotification 包含的所有服务器; 1:仅提醒被 IgnoredIPNotification 包含的服务器;） */
-    cover: number
-    custom_code: string
-    custom_code_dashboard: string
-    /** debug模式开关 */
-    debug: boolean
-    dns_servers: string
-    /** IP变更提醒 */
-    enable_ip_change_notification: boolean
-    /** 通知信息IP不打码 */
-    enable_plain_ip_in_notification: boolean
-    frontend_templates: ModelFrontendTemplate[]
-    /** 特定服务器IP（多个服务器用逗号分隔） */
-    ignored_ip_notification: string
-    /** [ServerID] -> bool(值为true代表当前ServerID在特定服务器列表内） */
-    ignored_ip_notification_server_ids: Record<string, boolean>
-    install_host: string
-    ip_change_notification_group_id: number
-    jwt_secret_key: string
-    /** 系统语言，默认 zh_CN */
-    language: string
-    listen_host: string
-    listen_port: number
-    /** 时区，默认为 Asia/Shanghai */
-    location: string
-    /** 真实IP */
-    real_ip_header: string
-    site_name: string
-    tls: boolean
-    user_template: string
-    version: string
-}
-
 export interface ModelStreamServer {
     country_code: string
     /** 展示排序，越大越靠前 */
@@ -661,6 +709,7 @@ export interface ModelStreamServer {
 
 export interface ModelStreamServerData {
     now: number
+    online: number
     servers: ModelStreamServer[]
 }
 
@@ -670,45 +719,26 @@ export interface ModelTerminalForm {
 }
 
 export interface ModelUser {
+    agent_secret: string
     created_at: string
     id: number
     password: string
+    reject_password: boolean
+    role: number
     updated_at: string
     username: string
-    role: number
 }
 
 export interface ModelUserForm {
     password: string
+    role: number
     username: string
 }
 
-export interface Pagination {
-    limit: number
-    offset: number
-    total: number
-}
-
-export interface ModelWAF {
-    count: number
-    ip: string
+export interface ModelWAFApiMock {
     block_identifier: number
     block_reason: number
     block_timestamp: number
-}
-
-export interface ModelWAFApiMock {
-    pagination: Pagination
-    value: ModelWAF[]
-}
-
-export interface ModelOnlineUser {
-    connected_at: string
+    count: number
     ip: string
-    user_id: number
-}
-
-export interface ModelOnlineUserApi {
-    pagination: Pagination
-    value: ModelOnlineUser[]
 }
