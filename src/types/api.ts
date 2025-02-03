@@ -123,6 +123,12 @@ export interface GithubComNezhahqNezhaModelCommonResponseModelServiceResponse {
     success: boolean
 }
 
+export interface GithubComNezhahqNezhaModelCommonResponseString {
+    data: string
+    error: string
+    success: boolean
+}
+
 export interface GithubComNezhahqNezhaModelCommonResponseUint64 {
     data: number
     error: string
@@ -203,6 +209,8 @@ export interface ModelConfig {
     enable_ip_change_notification: boolean
     /** 通知信息IP不打码 */
     enable_plain_ip_in_notification: boolean
+    /** 强制要求认证 */
+    force_auth: boolean
     /** 特定服务器IP（多个服务器用逗号分隔） */
     ignored_ip_notification: string
     /** [ServerID] -> bool(值为true代表当前ServerID在特定服务器列表内） */
@@ -411,6 +419,7 @@ export interface ModelNAT {
 
 export interface ModelNATForm {
     domain: string
+    enabled: boolean
     host: string
     /** @minLength 1 */
     name: string
@@ -560,6 +569,7 @@ export interface ModelServer {
     name: string
     /** 管理员可见备注 */
     note: string
+    override_ddns_domains?: Record<string, string[]>
     /** 公开备注 */
     public_note: string
     state: ModelHostState
@@ -582,6 +592,7 @@ export interface ModelServerForm {
     name: string
     /** 管理员可见备注 */
     note?: string
+    override_ddns_domains?: Record<string, string[]>
     /** 公开备注 */
     public_note?: string
 }
