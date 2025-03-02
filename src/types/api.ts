@@ -93,18 +93,6 @@ export interface GithubComNezhahqNezhaModelCommonResponseArrayUint64 {
     success: boolean
 }
 
-export interface GithubComNezhahqNezhaModelCommonResponseGithubComNezhahqNezhaModelSettingResponseModelConfig {
-    data: GithubComNezhahqNezhaModelSettingResponseModelConfig
-    error: string
-    success: boolean
-}
-
-export interface GithubComNezhahqNezhaModelCommonResponseModelForceUpdateResponse {
-    data: ModelForceUpdateResponse
-    error: string
-    success: boolean
-}
-
 export interface GithubComNezhahqNezhaModelCommonResponseModelLoginResponse {
     data: ModelLoginResponse
     error: string
@@ -117,8 +105,20 @@ export interface GithubComNezhahqNezhaModelCommonResponseModelProfile {
     success: boolean
 }
 
+export interface GithubComNezhahqNezhaModelCommonResponseModelServerTaskResponse {
+    data: ModelServerTaskResponse
+    error: string
+    success: boolean
+}
+
 export interface GithubComNezhahqNezhaModelCommonResponseModelServiceResponse {
     data: ModelServiceResponse
+    error: string
+    success: boolean
+}
+
+export interface GithubComNezhahqNezhaModelCommonResponseModelSettingResponse {
+    data: ModelSettingResponse
     error: string
     success: boolean
 }
@@ -145,12 +145,6 @@ export interface GithubComNezhahqNezhaModelPaginatedResponseArrayModelWAFApiMock
     data: GithubComNezhahqNezhaModelValueArrayModelWAFApiMock
     error: string
     success: boolean
-}
-
-export interface GithubComNezhahqNezhaModelSettingResponseModelConfig {
-    config: ModelConfig
-    frontend_templates: ModelFrontendTemplate[]
-    version: string
 }
 
 export interface GithubComNezhahqNezhaModelValueArrayModelOnlineUser {
@@ -192,47 +186,6 @@ export interface ModelAlertRuleForm {
     rules: ModelRule[]
     /** @default 0 */
     trigger_mode: number
-}
-
-export interface ModelConfig {
-    admin_template: string
-    agent_secret_key: string
-    avg_ping_count: number
-    /** 覆盖范围（0:提醒未被 IgnoredIPNotification 包含的所有服务器; 1:仅提醒被 IgnoredIPNotification 包含的服务器;） */
-    cover: number
-    custom_code: string
-    custom_code_dashboard: string
-    /** debug模式开关 */
-    debug: boolean
-    dns_servers: string
-    /** IP变更提醒 */
-    enable_ip_change_notification: boolean
-    /** 通知信息IP不打码 */
-    enable_plain_ip_in_notification: boolean
-    /** 强制要求认证 */
-    force_auth: boolean
-    /** 特定服务器IP（多个服务器用逗号分隔） */
-    ignored_ip_notification: string
-    /** [ServerID] -> bool(值为true代表当前ServerID在特定服务器列表内） */
-    ignored_ip_notification_server_ids: Record<string, boolean>
-    install_host: string
-    ip_change_notification_group_id: number
-    jwt_secret_key: string
-    /** 系统语言，默认 zh_CN */
-    language: string
-    listen_host: string
-    listen_port: number
-    /** 时区，默认为 Asia/Shanghai */
-    location: string
-    /** oauth2 配置 */
-    oauth2: Record<string, ModelOauth2Config>
-    /** oauth2 供应商列表，无需配置，自动生成 */
-    oauth2_providers: string[]
-    /** 真实IP */
-    real_ip_header: string
-    site_name: string
-    tls: boolean
-    user_template: string
 }
 
 export interface ModelCreateFMResponse {
@@ -334,12 +287,6 @@ export interface ModelDDNSProfile {
     webhook_request_body: string
     webhook_request_type: number
     webhook_url: string
-}
-
-export interface ModelForceUpdateResponse {
-    failure?: number[]
-    offline?: number[]
-    success?: number[]
 }
 
 export interface ModelFrontendTemplate {
@@ -469,20 +416,6 @@ export interface ModelNotificationGroupResponseItem {
     notifications: number[]
 }
 
-export interface ModelOauth2Config {
-    client_id: string
-    client_secret: string
-    endpoint: ModelOauth2Endpoint
-    scopes: string[]
-    user_id_path: string
-    user_info_url: string
-}
-
-export interface ModelOauth2Endpoint {
-    auth_url: string
-    token_url: string
-}
-
 export interface ModelOauth2LoginResponse {
     redirect: string
 }
@@ -577,6 +510,11 @@ export interface ModelServer {
     uuid: string
 }
 
+export interface ModelServerConfigForm {
+    config: string
+    servers: number[]
+}
+
 export interface ModelServerForm {
     /** DDNS配置 */
     ddns_profiles?: number[]
@@ -613,6 +551,12 @@ export interface ModelServerGroupForm {
 export interface ModelServerGroupResponseItem {
     group: ModelServerGroup
     servers: number[]
+}
+
+export interface ModelServerTaskResponse {
+    failure?: number[]
+    offline?: number[]
+    success?: number[]
 }
 
 export interface ModelService {
@@ -685,6 +629,43 @@ export interface ModelServiceResponseItem {
     up: number[]
 }
 
+export interface ModelSetting {
+    admin_template: string
+    agent_secret_key: string
+    avg_ping_count: number
+    /** 覆盖范围（0:提醒未被 IgnoredIPNotification 包含的所有服务器; 1:仅提醒被 IgnoredIPNotification 包含的服务器;） */
+    cover: number
+    custom_code: string
+    custom_code_dashboard: string
+    /** debug模式开关 */
+    debug: boolean
+    dns_servers: string
+    /** IP变更提醒 */
+    enable_ip_change_notification: boolean
+    /** 通知信息IP不打码 */
+    enable_plain_ip_in_notification: boolean
+    /** 强制要求认证 */
+    force_auth: boolean
+    /** 特定服务器IP（多个服务器用逗号分隔） */
+    ignored_ip_notification: string
+    /** [ServerID] -> bool(值为true代表当前ServerID在特定服务器列表内） */
+    ignored_ip_notification_server_ids: Record<string, boolean>
+    install_host: string
+    ip_change_notification_group_id: number
+    /** 系统语言，默认 zh_CN */
+    language: string
+    /** 时区，默认为 Asia/Shanghai */
+    location: string
+    /** oauth2 供应商列表，无需配置，自动生成 */
+    oauth2_providers: string[]
+    /** 真实IP */
+    real_ip_header: string
+    site_name: string
+    /** 用于前端判断生成的安装命令是否启用 TLS */
+    tls: boolean
+    user_template: string
+}
+
 export interface ModelSettingForm {
     cover: number
     custom_code?: string
@@ -704,6 +685,12 @@ export interface ModelSettingForm {
     site_name: string
     tls?: boolean
     user_template?: string
+}
+
+export interface ModelSettingResponse {
+    config: ModelSetting
+    frontend_templates: ModelFrontendTemplate[]
+    version: string
 }
 
 export interface ModelStreamServer {
