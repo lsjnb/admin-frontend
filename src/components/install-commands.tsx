@@ -100,6 +100,7 @@ export const InstallCommandsMenu = forwardRef<HTMLButtonElement, InstallCommands
                     side={menuItem ? "right" : undefined}
                     align={menuItem ? "start" : undefined}
                 >
+                <DropdownMenuItem>
                     Linux
                 </DropdownMenuItem>
                 <DropdownMenuItem
