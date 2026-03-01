@@ -19,6 +19,9 @@ enum OSTypes {
     Linux = 1,
     macOS,
     Windows,
+    LinuxCN,
+    macOSCN,
+    WindowsCN,
 }
 
 type InstallCommandsMenuProps = ButtonProps & {
@@ -97,35 +100,53 @@ export const InstallCommandsMenu = forwardRef<HTMLButtonElement, InstallCommands
                     side={menuItem ? "right" : undefined}
                     align={menuItem ? "start" : undefined}
                 >
-                    <DropdownMenuItem
-                        className="nezha-copy"
-                        onClick={async () => {
-                            switchState(OSTypes.Linux)
-                        }}
-                    >
-                        Linux
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className="nezha-copy"
-                        onClick={async () => {
-                            switchState(OSTypes.macOS)
-                        }}
-                    >
-                        macOS
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className="nezha-copy"
-                        onClick={async () => {
-                            switchState(OSTypes.Windows)
-                        }}
-                    >
-                        Windows
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        )
-    },
-)
+                <DropdownMenuItem>
+                    Linux
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="nezha-copy"
+                    onClick={async () => {
+                        switchState(OSTypes.LinuxCN)
+                    }}
+                >
+                    Linux 国内版
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="nezha-copy"
+                    onClick={async () => {
+                        switchState(OSTypes.macOS)
+                    }}
+                >
+                    macOS
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="nezha-copy"
+                    onClick={async () => {
+                        switchState(OSTypes.macOSCN)
+                    }}
+                >
+                    macOS 国内版
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="nezha-copy"
+                    onClick={async () => {
+                        switchState(OSTypes.Windows)
+                    }}
+                >
+                    Windows
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="nezha-copy"
+                    onClick={async () => {
+                        switchState(OSTypes.WindowsCN)
+                    }}
+                >
+                    Windows 国内版
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+})
 
 const generateCommand = (
     type: number,
@@ -156,10 +177,21 @@ const generateCommand = (
     switch (type) {
         case OSTypes.Linux:
         case OSTypes.macOS: {
-            return `curl -L https://raw.githubusercontent.com/nezhahq/scripts/main/agent/install.sh -o agent.sh && chmod +x agent.sh && env ${env} ./agent.sh`
+            let url = "https://raw.githubusercontent.com/lsjnb/scripts/new-world/agent/install.sh";
+            return `curl -L ${url} -o agent.sh && chmod +x agent.sh && env ${env} ./agent.sh`
+        }
+        case OSTypes.LinuxCN:
+        case OSTypes.macOSCN: {
+            let url = "https://github.geekery.cn/https://raw.githubusercontent.com/lsjnb/scripts/new-world/agent/install.sh";
+            return `curl -L ${url} -o agent.sh && chmod +x agent.sh && env ${env} ./agent.sh`
         }
         case OSTypes.Windows: {
-            return `${env_win} [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12;set-ExecutionPolicy RemoteSigned;Invoke-WebRequest https://raw.githubusercontent.com/nezhahq/scripts/main/agent/install.ps1 -OutFile C:\install.ps1;powershell.exe C:\install.ps1`
+            let url = "https://raw.githubusercontent.com/lsjnb/scripts/new-world/agent/install.ps1";
+            return `${env_win} [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12;set-ExecutionPolicy RemoteSigned;Invoke-WebRequest ${url} -OutFile C:\install.ps1;powershell.exe C:\install.ps1`
+        }
+        case OSTypes.WindowsCN: {
+            let url = "https://github.geekery.cn/https://raw.githubusercontent.com/lsjnb/scripts/new-world/agent/install.ps1";
+            return `${env_win} [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Ssl3 -bor [Net.SecurityProtocolType]::Tls -bor [Net.SecurityProtocolType]::Tls11 -bor [Net.SecurityProtocolType]::Tls12;set-ExecutionPolicy RemoteSigned;Invoke-WebRequest ${url} -OutFile C:\install.ps1;powershell.exe C:\install.ps1`
         }
         default: {
             throw new Error(`Unknown OS: ${type}`)
